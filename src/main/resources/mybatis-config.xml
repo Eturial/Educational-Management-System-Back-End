@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias alias="Course" type="com.course.server.pojo.Course"/>
+        <typeAlias alias="Teachers" type="com.course.server.pojo.Teachers"/>
+        <typeAlias alias="Students" type="com.course.server.pojo.Students"/>
+        <typeAlias alias="CourseChoice" type="com.course.server.pojo.CourseChoice"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/course_choice?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai"/>
+                <property name="username" value="root"/>
+                <property name="password" value="yhyh1001"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mapper/CourseMapper.xml"/>
+        <mapper resource="mapper/StudentsMapper.xml"/>
+        <mapper resource="mapper/TeachersMapper.xml"/>
+        <mapper resource="mapper/CourseChoiceMapper.xml"/>
+    </mappers>
+</configuration>

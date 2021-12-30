@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.course.server.mapper.TeachersMapper">
+
+    <resultMap id="SelectTeachers" type="com.course.server.pojo.Teachers">
+            <id property="teacherID" column="teacherID"/>
+            <result property="teacherName" column="teacherName"/>
+            <result property="teacherGender" column="teacherGender" />
+            <result property="teacherCollege" column="teacherCollege"/>
+            <result property="teacherWork" column="teacherWork" />
+            <result property="teacherTelephone" column="teacherTelephone"/>
+            <result property="teacherEmail" column="teacherEmail"/>
+            <result property="teacherPassword" column="teacherPassword"/>
+    </resultMap>
+
+    <insert id="addNewTeacher" parameterType="com.course.server.pojo.Teachers">
+        insert into
+            teachers(teacherID, teacherName, teacherGender, teacherCollege, teacherWork, teacherTelephone, teacherEmail, teacherPassword)
+        values(#{teacher.teacherID}, #{teacher.teacherName}, #{teacher.teacherGender}, #{teacher.teacherCollege}, #{teacher.teacherWork}, #{teacher.teacherTelephone}, #{teacher.teacherEmail}, #{teacher.teacherPassword});
+    </insert>
+
+    <insert id="addCourseChoice" parameterType="com.course.server.pojo.TeacherChoice">
+        insert into
+            teachchoice(teacherID, courseID)
+        values(#{teacherChoice.teacherID}, #{teacherChoice.courseID});
+    </insert>
+
+    <update id="updateTeacher" parameterType="com.course.server.pojo.Teachers">
+        update teachers
+        set teacherID = #{teacher.teacherID},
+            teacherName = #{teacher.teacherName},
+            teacherGender = #{teacher.teacherGender},
+            teacherCollege = #{teacher.teacherCollege},
+            teacherWork = #{teacher.teacherWork},
+            teacherTelephone = #{teacher.teacherTelephone},
+            teacherEmail = #{teacher.teacherEmail}
+        where teacherID = #{teacher.teacherID};
+    </update>
+
+    <update id="updateTeacherPassword" parameterType="com.course.server.pojo.StudentLogin">
+        update teachers
+        set teacherPassword = #{studentLogin.teacherPassword}
+        where teacherID = #{studentLogin.teacherID};
+    </update>
+
+    <update id="updateStudentGrade">
+        update coursechoice
+        set grade = #{grade},
+            times = times - 1
+        where courseID = #{courseID}
+        and teacherID = #{teacherID}
+        and studentID = #{studentID};
+    </update>
+
+    <delete id="deleteOne" parameterType="String">
+        delete
+        from teachers
+        where teacherID = #{teacherID};
+    </delete>
+
+    <select id="getAllTeachers" resultMap="SelectTeachers">
+        select teacherID, teacherName, teacherGender, teacherCollege, teacherWork, teacherTelephone, teacherEmail
+        from teachers;
+    </select>
+
+    <select id="getTeacherPassword" resultMap="SelectTeachers">
+        select *
+        from teachers
+        where teacherID = #{teacherID};
+    </select>
+
+    <select id="getAlreadyChoice" resultType="com.course.server.pojo.TeacherChoice">
+        select course.*
+        from course, teachchoice
+        where course.courseID = teachchoice.courseID
+        and teachchoice.teacherID = #{teacherID};
+    </select>
+
+    <select id="getTeachCourse" resultType="com.course.server.pojo.TeacherChoice">
+        select courseName,courseID
+        from course where courseID in
+            (select courseID
+            from teachchoice
+            where teacherID=#{teacherID});
+    </select>
+
+    <select id="getStudentList" resultType="com.course.server.pojo.Students">
+        select students.sutdentName, students.studentID,
+               students.studentCollege, students.studentMajor,
+               students.studentEmail, coursechoice.grade,
+               coursechoice.times
+        from students,coursechoice
+        where students.studentID = courseChoice.studentID
+        and coursechoice.teacherID = #{teacherID}
+        and courseChoice.courseID = #{courseID};
+    </select>
+
+</mapper>

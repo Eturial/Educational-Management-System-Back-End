@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.course.server.mapper.CourseChoiceMapper">
+
+    <resultMap id="SelectCourseChoice" type="com.course.server.pojo.CourseChoice">
+            <result property="studentID" column="studentID"/>
+            <result property="teacherID" column="teacherID"/>
+            <result property="courseID" column="courseID"/>
+            <result property="grade" column="grade"/>
+            <result property="courseScore" column="courseScore"/>
+    </resultMap>
+
+</mapper>
